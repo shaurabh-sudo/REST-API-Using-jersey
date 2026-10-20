@@ -12,7 +12,7 @@ public class DemoRepository {
         String username="root";
         String password="root@1221";
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con=DriverManager.getConnection(url,username,password);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -72,4 +72,34 @@ public class DemoRepository {
         }
     }
 
+    //update
+    public void update(Demo d1) {
+        String sql="update demos set name =?,marks=? where id=?";
+        try {
+
+            PreparedStatement ps=con.prepareStatement(sql);
+
+            ps.setString(1,d1.getName());
+            ps.setInt(2,d1.getMarks());
+            ps.setInt(3, d1.getID());
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void delete(int id) {
+        String sql="delete from demos where id=?";
+        try {
+
+            PreparedStatement ps=con.prepareStatement(sql);
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }

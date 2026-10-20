@@ -70,5 +70,31 @@ public class ResourceDemo {
         repo.create(d1);
         return d1;
     }
+ //update a record
+    @PUT
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Demo updateDemo(Demo d1) {
+        if(repo.getDemo(d1.getID()).getID()==0){
+            repo.create(d1);
+        }
+        else {
+            repo.update(d1);
+        }
+        return d1;
+    }
+    //delete resource
+    @DELETE
+    @Path("{id}")
+   // @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+    public Demo deleteDemo(@PathParam("id") int id) {
+        Demo d = repo.getDemo(id);
+
+        if (d != null && d.getID() != 0) {
+            repo.delete(id);
+        }
+
+        return d;
+    }
 }
 
